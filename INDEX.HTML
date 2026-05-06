@@ -1,1 +1,207 @@
 
+# Binary Search Sorting Game Website (User Input Based)
+
+Use this code inside your `index.html` file.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Binary Search Sorting Visualizer</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            width: 350px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background: orange;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #array-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 400px;
+            margin-top: 40px;
+        }
+
+        .bar {
+            width: 40px;
+            margin: 4px;
+            background: cyan;
+            color: black;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Binary Search Sorting Visualizer</h1>
+
+<p>Enter numbers separated by commas</p>
+
+<input type="text" id="numbers" placeholder="Example: 34,12,5,67,23">
+
+<br>
+
+<button onclick="sortArray()">Sort Numbers</button>
+<button onclick="startBinarySearch()">Binary Search</button>
+
+<div id="array-container"></div>
+
+<div id="result"></div>
+
+<script>
+
+let sortedArray = [];
+
+function sortArray() {
+
+    const input = document.getElementById("numbers").value;
+
+    let arr = input.split(",").map(Number);
+
+    sortedArray = arr.sort((a,b) => a-b);
+
+    displayBars(sortedArray);
+
+    document.getElementById("result").innerHTML =
+        "Sorted Array: " + sortedArray.join(", ");
+}
+
+function displayBars(arr) {
+
+    const container = document.getElementById("array-container");
+
+    container.innerHTML = "";
+
+    arr.forEach(num => {
+
+        const bar = document.createElement("div");
+
+        bar.classList.add("bar");
+
+        bar.style.height = (num * 3) + "px";
+
+        bar.innerHTML = num;
+
+        container.appendChild(bar);
+    });
+}
+
+async function startBinarySearch() {
+
+    if(sortedArray.length === 0) {
+        alert("Please sort the array first!");
+        return;
+    }
+
+    const target = prompt("Enter number to search:");
+
+    const bars = document.getElementsByClassName("bar");
+
+    let left = 0;
+    let right = sortedArray.length - 1;
+
+    while(left <= right) {
+
+        let mid = Math.floor((left + right)/2);
+
+        bars[mid].style.background = "red";
+
+        await sleep(1000);
+
+        if(sortedArray[mid] == target) {
+
+            bars[mid].style.background = "lime";
+
+            document.getElementById("result").innerHTML =
+                "Element " + target + " found at position " + mid;
+
+            return;
+        }
+
+        else if(sortedArray[mid] < target) {
+
+            bars[mid].style.background = "gray";
+
+            left = mid + 1;
+        }
+
+        else {
+
+            bars[mid].style.background = "gray";
+
+            right = mid - 1;
+        }
+    }
+
+    document.getElementById("result").innerHTML =
+        "Element not found";
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+</script>
+
+</body>
+</html>
+```
+
+# How This Works
+
+1. User enters numbers
+2. Click `Sort Numbers`
+3. Array gets sorted
+4. Bars appear visually
+5. Click `Binary Search`
+6. Enter target number
+7. Visualization checks middle element step-by-step
+8. Green color = found
+9. Gray color = discarded elements
+
+# Upload To GitHub
+
+1. Open your repository
+2. Delete old `index.html`
+3. Create new `index.html`
+4. Paste this code
+5. Commit changes
+6. Refresh your GitHub Pages website
+
+Your website updates automatically.
